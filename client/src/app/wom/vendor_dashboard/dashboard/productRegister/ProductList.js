@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Table,
@@ -7,9 +7,14 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination
+  TablePagination,
+  useMediaQuery,
+  useTheme,
+  TableContainer,
+  Paper
 } from "@mui/material";
 import { SimpleCard } from "app/components";
+import { Link } from "react-router-dom";
 
 // STYLED COMPONENT
 const StyledTable = styled(Table)(() => ({
@@ -124,9 +129,13 @@ const subscribarList = [
     categories: "Petrol"
   }
 ];
+
 const ProductList = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
@@ -138,35 +147,49 @@ const ProductList = () => {
   };
 
   return (
-    <main id='main' className='main'>
+    <main id="main" className="main">
+      <div className="pagetitle">
+        <h1>Product List</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link to=" " className="a">
+                <i className="bi bi-card-checklist"></i>
+              </Link>
+            </li>
+            <li className="breadcrumb-item active">Product List</li>
+          </ol>
+        </nav>
+      </div>
       <Container>
         <SimpleCard title="Product List">
           <Box width="100%" overflow="auto">
-            <StyledTable>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">Product Name</TableCell>
-                  <TableCell align="center">Categories</TableCell>
-                  <TableCell align="center">Price</TableCell>
-                  <TableCell align="center">Qty</TableCell>
-                  <TableCell align="center">Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {subscribarList
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((subscriber, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="left">{subscriber.name}</TableCell>
-                      <TableCell align="center">{subscriber.categories}</TableCell>
-                      <TableCell align="center">{subscriber.price}</TableCell>
-                      <TableCell align="center">{subscriber.qty}</TableCell>
-                      <TableCell align="center">{subscriber.status}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </StyledTable>
-
+            <TableContainer component={Paper}>
+              <StyledTable>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">Product Name</TableCell>
+                    {!isMobile && <TableCell align="center">Categories</TableCell>}
+                    <TableCell align="center">Price</TableCell>
+                    {!isMobile && <TableCell align="center">Qty</TableCell>}
+                    <TableCell align="center">Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {subscribarList
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((subscriber, index) => (
+                      <TableRow key={index}>
+                        <TableCell align="left">{subscriber.name}</TableCell>
+                        {!isMobile && <TableCell align="center">{subscriber.categories}</TableCell>}
+                        <TableCell align="center">{subscriber.price}</TableCell>
+                        {!isMobile && <TableCell align="center">{subscriber.qty}</TableCell>}
+                        <TableCell align="center">{subscriber.status}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </StyledTable>
+            </TableContainer>
             <TablePagination
               sx={{ px: 2 }}
               page={page}
@@ -183,7 +206,7 @@ const ProductList = () => {
         </SimpleCard>
       </Container>
     </main>
-  )
-}
+  );
+};
 
 export default ProductList;

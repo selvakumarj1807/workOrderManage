@@ -7,6 +7,9 @@ import StatCards2 from "./shared/StatCards2";
 import DoughnutChart from "./shared/Doughnut";
 import TopSellingTable from "./shared/TopSellingTable";
 
+import { Link } from "react-router-dom";
+
+
 // STYLED COMPONENTS
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",
@@ -38,6 +41,20 @@ export default function VendorDashboard() {
 
   return (
     <main id='main' className='main'>
+
+      <div className="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link to=" " className="a">
+                <i class="bi bi-card-checklist"></i>
+              </Link>
+            </li>
+            <li className="breadcrumb-item active">Vendor Dashboard</li>
+          </ol>
+        </nav>
+      </div>
       <Fragment>
         <ContentBox className="analytics">
           <Grid container spacing={3}>
