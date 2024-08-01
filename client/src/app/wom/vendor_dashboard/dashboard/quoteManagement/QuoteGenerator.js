@@ -1,5 +1,11 @@
-import { Container } from '@mui/material';
+import {
+  Container, Grid, TextField, Button, Table, TableHead, TableRow,
+  TableCell, TableBody, IconButton, useMediaQuery, Box, Typography
+} from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
+import { useTheme } from '@mui/material/styles';
 
 const QuoteGenerator = () => {
   const [quoteData, setQuoteData] = useState({
@@ -7,6 +13,9 @@ const QuoteGenerator = () => {
     quoteNumber: '',
     items: [{ productname: '', description: '', quantity: 0, price: 0 }],
   });
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
@@ -34,97 +43,221 @@ const QuoteGenerator = () => {
     // Here you can send the quoteData to your backend for further processing
   };
 
+  const styles = {
+    formContainer: {
+      marginTop: '50px',
+    },
+    formHeader: {
+      textAlign: 'center',
+      fontWeight: 'bold',
+      marginBottom: '30px',
+    },
+    formGroup: {
+      marginBottom: '30px',
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+    },
+    tableHeader: {
+      backgroundColor: '#f8f9fa',
+    },
+    tableCell: {
+      padding: '10px',
+      border: '1px solid #dee2e6',
+    },
+    buttonGroup: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+    },
+    button: {
+      padding: '10px 20px',
+      marginTop: '25px',
+      cursor: 'pointer',
+      backgroundColor: '#007bff',
+      border: 'none',
+      color: '#fff',
+      borderRadius: '4px',
+    },
+  };
+
   return (
     <main id='main' className='main'>
+      <div className="pagetitle">
+        <h1>Quote Generator</h1>
+        <nav>
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link to=" " className="a">
+                <i className="bi bi-card-checklist"></i>
+              </Link>
+            </li>
+            <li className="breadcrumb-item active">Quote Generator</li>
+          </ol>
+        </nav>
+      </div>
       <Container>
-        <div style={{ marginTop: '50px' }}>
-          <h2 style={{ textAlign: 'center', fontWeight: "bold", marginBottom: '30px' }}>Create Quote</h2>
-          <form onSubmit={handleSubmit} >
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
-              <div >
-                <label htmlFor="customerName" style={{ marginRight: '30px' }}>Customer Name:</label>
-                <input
-                  type="text"
-                  id="customerName"
+        <div style={styles.formContainer}>
+          <h2 style={styles.formHeader}>Create Quote</h2>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2} style={styles.formGroup}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Customer Name"
+                  variant="outlined"
+                  fullWidth
                   name="customerName"
                   value={quoteData.customerName}
                   onChange={(e) => setQuoteData({ ...quoteData, customerName: e.target.value })}
                 />
-              </div>
-
-              <div>
-                <label htmlFor="quoteNumber">Quote Number:</label>
-                <input
-                  style={{ marginLeft: '30px' }}
-                  type="text"
-                  id="quoteNumber"
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Quote Number"
+                  variant="outlined"
+                  fullWidth
                   name="quoteNumber"
                   value={quoteData.quoteNumber}
                   onChange={(e) => setQuoteData({ ...quoteData, quoteNumber: e.target.value })}
                 />
-              </div>
+              </Grid>
+            </Grid>
 
-            </div>
-            <table >
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Description</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
+            {isMobile ? (
+              <Box>
                 {quoteData.items.map((item, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type="text"
-                        name="productname"
-                        value={item.productname}
-                        onChange={(e) => handleInputChange(index, e)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="description"
-                        value={item.description}
-                        onChange={(e) => handleInputChange(index, e)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="quantity"
-                        value={item.quantity}
-                        onChange={(e) => handleInputChange(index, e)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="price"
-                        value={item.price}
-                        onChange={(e) => handleInputChange(index, e)}
-                      />
-                    </td>
-                    <td>
-                      <button style={{ color: "#fff" }} type="button" onClick={() => handleRemoveItem(index)}>
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
+                  <Box key={index} mb={2} p={2} border={1} borderRadius={4}>
+                    <Typography variant="h6">Item {index + 1}</Typography>
+                    <TextField
+                      label="Product Name"
+                      variant="outlined"
+                      fullWidth
+                      name="productname"
+                      value={item.productname}
+                      onChange={(e) => handleInputChange(index, e)}
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Description"
+                      variant="outlined"
+                      fullWidth
+                      name="description"
+                      value={item.description}
+                      onChange={(e) => handleInputChange(index, e)}
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Quantity"
+                      type="number"
+                      variant="outlined"
+                      fullWidth
+                      name="quantity"
+                      value={item.quantity}
+                      onChange={(e) => handleInputChange(index, e)}
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Price"
+                      type="number"
+                      variant="outlined"
+                      fullWidth
+                      name="price"
+                      value={item.price}
+                      onChange={(e) => handleInputChange(index, e)}
+                      margin="normal"
+                    />
+                    <IconButton
+                      onClick={() => handleRemoveItem(index)}
+                      sx={{ color: 'red', mt: 1 }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Box>
                 ))}
-              </tbody>
-            </table>
-            <div>
-
-              <button style={{ color: "#fff", display: 'flex', justifyContent: 'center', flexDirection: 'column', marginTop: '25px' }} type="button" onClick={handleAddItem}>
+              </Box>
+            ) : (
+              <Table style={styles.table}>
+                <TableHead style={styles.tableHeader}>
+                  <TableRow>
+                    <TableCell style={styles.tableCell}>Product Name</TableCell>
+                    <TableCell style={styles.tableCell}>Description</TableCell>
+                    <TableCell style={styles.tableCell}>Quantity</TableCell>
+                    <TableCell style={styles.tableCell}>Price</TableCell>
+                    <TableCell style={styles.tableCell}>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {quoteData.items.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell style={styles.tableCell}>
+                        <TextField
+                          variant="outlined"
+                          fullWidth
+                          name="productname"
+                          value={item.productname}
+                          onChange={(e) => handleInputChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell style={styles.tableCell}>
+                        <TextField
+                          variant="outlined"
+                          fullWidth
+                          name="description"
+                          value={item.description}
+                          onChange={(e) => handleInputChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell style={styles.tableCell}>
+                        <TextField
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          name="quantity"
+                          value={item.quantity}
+                          onChange={(e) => handleInputChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell style={styles.tableCell}>
+                        <TextField
+                          type="number"
+                          variant="outlined"
+                          fullWidth
+                          name="price"
+                          value={item.price}
+                          onChange={(e) => handleInputChange(index, e)}
+                        />
+                      </TableCell>
+                      <TableCell style={styles.tableCell}>
+                        <IconButton
+                          onClick={() => handleRemoveItem(index)}
+                          sx={{ color: 'red' }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+            <div style={styles.buttonGroup}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddItem}
+                style={styles.button}
+              >
                 Add Item
-              </button>
-
-              <button style={{ color: "#fff" }} type="submit">Submit Quote</button>
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                style={styles.button}
+              >
+                Submit Quote
+              </Button>
             </div>
           </form>
         </div>
