@@ -6,11 +6,11 @@ function NavAvatar() {
     <li className="nav-item dropdown pe-3">
     <Link to=" " className='nav-link nav-profile d-flex align-items-center pe-0 a' data-bs-toggle="dropdown">
       <img src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" alt="Profile" className='rounded-circle' />
-      <span className="d-none d-md-block dropdown-toggle ps-2">User</span>
+      <span className="d-none d-md-block dropdown-toggle ps-2">Admin</span>
     </Link>
     <ul className='dropdown-menu dropdown-menu-end dropdown-menu-arrow profile'>
       <li className="dropdown-header">
-        <h6>User</h6>
+        <h6>Admin</h6>
         <span>Web Developer</span>
       </li>
       <li>

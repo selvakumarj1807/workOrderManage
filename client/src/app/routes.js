@@ -10,6 +10,8 @@ import MatxLayout from "./components/MatxLayout/MatxLayout";
 import Home from "./wom/Home/Home";
 import UserDashboard from "./wom/user_dashboard/UserDashboard";
 import VendorDashboard from "./wom/vendor_dashboard/vendorDashboard";
+import AdminDashboard from "./wom/admin_dashboard/adminDashboard";
+
 
 import DoYou from "./wom/Home/popup/DoYou";
 import PartInformation from "./wom/Home/PartInformation";
@@ -29,6 +31,10 @@ const JwtVendorRegister = Loadable(lazy(() =>
     import ("app/views/sessions/JwtVendorRegister")));
 const VendorForgotPassword = Loadable(lazy(() =>
     import ("app/views/sessions/VendorForgotPassword")));
+const JwtAdminLogin = Loadable(lazy(() =>
+    import ("app/views/sessions/jwtAdminLogin")));
+const AdminForgotPassword = Loadable(lazy(() =>
+    import ("app/views/sessions/adminForgotPassword")));
 
 const routes = [
     { path: "/", element: < Navigate to = "home" / > },
@@ -38,6 +44,8 @@ const routes = [
     { path: "/home/doYou", element: < DoYou / > },
     { path: "/UserDashboard/*", element: < UserDashboard / > },
     { path: "/VendorDashboard/*", element: < VendorDashboard / > },
+    { path: "/Admin/*", element: < AdminDashboard / > },
+
 
     // session pages route
     { path: "/session/404", element: < NotFound / > },
@@ -47,6 +55,11 @@ const routes = [
     { path: "/session/VendorSignin", element: < JwtVendorLogin / > },
     { path: "/session/VendorSignup", element: < JwtVendorRegister / > },
     { path: "/session/VendorForgot-password", element: < VendorForgotPassword / > },
+
+    { path: "/session/admin", element: < JwtAdminLogin / > },
+    { path: "/session/adminForgot-password", element: < AdminForgotPassword / > },
+
+
 ];
 
 export default routes;
